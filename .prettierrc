@@ -1,7 +1,7 @@
 {
   "plugins": [
-    "prettier-plugin-tailwindcss-canonical-classes",
-    "prettier-plugin-tailwindcss"
+    "prettier-plugin-tailwindcss",
+    "prettier-plugin-tailwindcss-canonical-classes"
   ],
   "tailwindStylesheet": "./app/globals.css",
   "tailwindPreserveWhitespace": false
