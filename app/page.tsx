@@ -18,7 +18,7 @@ const BUTTON =
 const INTRO_PANEL =
   "absolute top-0 h-full border-0 bg-[#ff5c32] shadow-[0_0_0_1px_#ff5c32] will-change-transform";
 const FEATURE =
-  "absolute z-[4] flex max-w-[230px] items-center gap-5 text-[clamp(1.2rem,1.8vw,1.8rem)] leading-[1.08] max-[760px]:max-w-[150px] max-[760px]:gap-2 max-[760px]:text-base";
+  "absolute z-[4] max-w-[230px] text-[clamp(1.2rem,1.8vw,1.8rem)] leading-[1.08] max-[760px]:max-w-[150px] max-[760px]:text-base";
 
 const introPanels = [
   {
@@ -98,14 +98,15 @@ const features = [
   {
     label: "Guaranteed security",
     route: "/assets/route-b.svg",
-    position:
-      "left-[5%] top-[24%] flex-row-reverse text-right max-[760px]:left-[3%] max-[760px]:top-[20%]",
+    position: "left-[5%] top-[24%] max-[760px]:left-[3%] max-[760px]:top-[20%]",
+    reverse: true,
   },
   {
     label: "Real-time tracking",
     route: "/assets/route-c.svg",
     position:
-      "bottom-[13%] left-[7%] flex-row-reverse text-right max-[760px]:bottom-[16%] max-[760px]:left-[4%]",
+      "bottom-[13%] left-[7%] max-[760px]:bottom-[16%] max-[760px]:left-[4%]",
+    reverse: true,
   },
   {
     label: "24/7 support",
@@ -933,21 +934,29 @@ function Mission() {
               className={`${FEATURE} ${feature.position}`}
               key={feature.label}
               data-node-id={["1:719", "1:720", "1:721", "1:722"][index]}
-              initial={reduceMotion ? false : { opacity: 0, x: 135 }}
-              whileInView={reduceMotion ? undefined : { opacity: 1, x: 0 }}
+              initial={reduceMotion ? false : "hidden"}
+              whileInView={reduceMotion ? undefined : "visible"}
               viewport={{ once: true, amount: 0.4 }}
-              transition={{
-                duration: FIGMA_TIMELINE * (0.2977 - 0.258),
-                delay: index * 0.04,
-                ease: EASE,
-              }}
             >
-              <img
-                className="max-h-27.5 w-19 max-[760px]:w-10.5"
-                src={feature.route}
-                alt=""
-              />
-              <span>{feature.label}</span>
+              <motion.div
+                className={`flex items-center gap-5 max-[760px]:gap-2 ${feature.reverse ? "flex-row-reverse text-right" : ""}`}
+                variants={{
+                  hidden: { opacity: 0, x: 135 },
+                  visible: { opacity: 1, x: 0 },
+                }}
+                transition={{
+                  duration: FIGMA_TIMELINE * (0.2977 - 0.258),
+                  delay: index * 0.04,
+                  ease: EASE,
+                }}
+              >
+                <img
+                  className="max-h-27.5 w-19 max-[760px]:w-10.5"
+                  src={feature.route}
+                  alt=""
+                />
+                <span>{feature.label}</span>
+              </motion.div>
             </motion.div>
           ))}
         </div>
@@ -1201,7 +1210,7 @@ function Contact() {
         Setby.
       </motion.div>
       <motion.img
-        className="absolute inset-0 z-3 h-full w-full object-cover object-[center_bottom] max-[760px]:top-auto max-[760px]:h-[82%] max-[760px]:object-[60%_bottom]"
+        className="absolute inset-x-0 bottom-0 z-3 h-full w-full object-[center_bottom] min-[1200px]:h-full max-[760px]:h-full max-[760px]:object-[60%_bottom] lg:top-17"
         data-node-id="1:790"
         src="/assets/closing-foreground.webp"
         alt="Orange Setby shipping containers"
