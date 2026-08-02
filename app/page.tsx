@@ -1,9 +1,52 @@
 "use client";
 
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import { useState, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 
 const EASE = [0.241, 0, 0.138, 1] as const;
+const SOFT_EASE = [0.284, 0.009, 0.138, 1] as const;
+const FIGMA_TIMELINE = 27.164;
+const INTRO_TIMELINE = FIGMA_TIMELINE * 2.25;
+const INTRO_DISMISS_DELAY = 3200;
+
+const introPanels = [
+  {
+    nodeId: "1:801",
+    className: "intro-cap intro-cap-left",
+    end: 0.0199,
+    ease: SOFT_EASE,
+  },
+  {
+    nodeId: "1:800",
+    className: "intro-panel intro-panel-one",
+    end: 0.0248,
+    ease: EASE,
+  },
+  {
+    nodeId: "1:802",
+    className: "intro-panel intro-panel-two",
+    end: 0.0297,
+    ease: EASE,
+  },
+  {
+    nodeId: "1:803",
+    className: "intro-panel intro-panel-three",
+    end: 0.0349,
+    ease: EASE,
+  },
+  {
+    nodeId: "1:804",
+    className: "intro-panel intro-panel-four",
+    end: 0.0399,
+    ease: EASE,
+  },
+  {
+    nodeId: "1:805",
+    className: "intro-cap intro-cap-right",
+    end: 0.045,
+    ease: EASE,
+  },
+];
 
 const services = [
   {
@@ -91,6 +134,83 @@ function Brand({ inverted = false }: { inverted?: boolean }) {
   );
 }
 
+function OpeningIntro() {
+  const reduceMotion = useReducedMotion();
+  const [visible, setVisible] = useState(true);
+
+  useEffect(() => {
+    if (reduceMotion) {
+      setVisible(false);
+      return;
+    }
+
+    const timer = window.setTimeout(
+      () => setVisible(false),
+      INTRO_DISMISS_DELAY,
+    );
+    return () => window.clearTimeout(timer);
+  }, [reduceMotion]);
+
+  return (
+    <AnimatePresence>
+      {visible && (
+        <div className="opening-intro" aria-hidden="true">
+          {introPanels.map((panel) => (
+            <motion.div
+              className={panel.className}
+              data-node-id={panel.nodeId}
+              key={panel.nodeId}
+              initial={{ y: 0 }}
+              animate={{ y: [0, 0, -1690, -1690] }}
+              transition={{
+                y: {
+                  duration: INTRO_TIMELINE,
+                  times: [0, 0.005, panel.end, 1],
+                  ease: ["linear", panel.ease, "linear"],
+                },
+              }}
+            />
+          ))}
+
+          <div className="intro-content-position">
+            <motion.div
+              className="intro-content"
+              data-node-id="1:806"
+              initial={{ y: 0 }}
+              animate={{ y: [0, 0, -1690, -1690] }}
+              transition={{
+                y: {
+                  duration: INTRO_TIMELINE,
+                  times: [0, 0.005, 0.0248, 1],
+                  ease: ["linear", EASE, "linear"],
+                },
+              }}
+            >
+              <div className="intro-lockup">
+                <img
+                  data-node-id="1:807"
+                  src="/assets/intro-mark-a.svg"
+                  alt=""
+                />
+                <img
+                  data-node-id="1:808"
+                  src="/assets/intro-mark-b.svg"
+                  alt=""
+                />
+                <span className="intro-type" data-node-id="1:809">
+                  <img src="/assets/intro-mark-type.svg" alt="" />
+                  <strong data-node-id="1:810">Setby.</strong>
+                </span>
+              </div>
+              <p data-node-id="1:811">Enhanced Logistics</p>
+            </motion.div>
+          </div>
+        </div>
+      )}
+    </AnimatePresence>
+  );
+}
+
 function Nav() {
   const [open, setOpen] = useState(false);
   const reduceMotion = useReducedMotion();
@@ -98,7 +218,19 @@ function Nav() {
   const close = () => setOpen(false);
 
   return (
-    <header className="site-header">
+    <motion.header
+      className="site-header"
+      data-node-id="1:657"
+      initial={reduceMotion ? false : { y: -187.164 }}
+      animate={reduceMotion ? undefined : { y: [-187.164, -187.164, 0] }}
+      transition={{
+        y: {
+          duration: FIGMA_TIMELINE * 0.0297,
+          times: [0, 0.0099 / 0.0297, 1],
+          ease: ["linear", EASE],
+        },
+      }}
+    >
       <a className="brand-link" href="#top" onClick={close}>
         <Brand />
       </a>
@@ -152,30 +284,59 @@ function Nav() {
           </motion.nav>
         )}
       </AnimatePresence>
-    </header>
+    </motion.header>
   );
 }
 
 function DeliveryWord() {
   const reduceMotion = useReducedMotion();
+  const characters = [
+    { letter: "D", nodeId: "1:644", start: 0, end: 0.0223, x: 0 },
+    { letter: "e", nodeId: "1:645", start: 0.002, end: 0.0243, x: -21 },
+    { letter: "l", nodeId: "1:646", start: 0.004, end: 0.0263, x: -36 },
+    { letter: "i", nodeId: "1:647", start: 0.006, end: 0.0283, x: -54 },
+    { letter: "v", nodeId: "1:648", start: 0.0079, end: 0.0303, x: -65 },
+    { letter: "e", nodeId: "1:649", start: 0.0099, end: 0.0322, x: -90 },
+    { letter: "r", nodeId: "1:650", start: 0.0119, end: 0.0342, x: -107 },
+    { letter: "y", nodeId: "1:651", start: 0.0139, end: 0.0362, x: -104 },
+  ];
+
   return (
     <span className="delivery-word" aria-label="Delivery">
-      {"Delivery".split("").map((letter, index) => (
+      {characters.map((character) => (
         <motion.span
           aria-hidden="true"
-          key={`${letter}-${index}`}
-          initial={
-            reduceMotion ? false : { opacity: 0, y: 32, x: index ? -12 : 0 }
+          data-node-id={character.nodeId}
+          key={character.nodeId}
+          initial={reduceMotion ? false : { opacity: 0, x: 0, y: 32 }}
+          animate={
+            reduceMotion
+              ? undefined
+              : {
+                  opacity: character.start ? [0, 0, 1] : [0, 1],
+                  x: ["0vw", `${character.x / 25.64}vw`],
+                  y: character.start ? [32, 32, 0] : [32, 0],
+                }
           }
-          whileInView={reduceMotion ? undefined : { opacity: 1, y: 0, x: 0 }}
-          viewport={{ once: true }}
           transition={{
-            duration: 0.62,
-            delay: 0.16 + index * 0.045,
-            ease: EASE,
+            opacity: {
+              duration: FIGMA_TIMELINE * character.end,
+              times: character.start
+                ? [0, character.start / character.end, 1]
+                : [0, 1],
+              ease: character.start ? ["linear", EASE] : EASE,
+            },
+            x: { duration: FIGMA_TIMELINE * character.end, ease: EASE },
+            y: {
+              duration: FIGMA_TIMELINE * character.end,
+              times: character.start
+                ? [0, character.start / character.end, 1]
+                : [0, 1],
+              ease: character.start ? ["linear", EASE] : EASE,
+            },
           }}
         >
-          {letter}
+          {character.letter}
         </motion.span>
       ))}
     </span>
@@ -193,22 +354,82 @@ function Hero() {
       <div className="hero-grid" aria-hidden="true" />
       <h1 className="hero-title" id="hero-title">
         <motion.span
+          data-node-id="1:642"
           initial={reduceMotion ? false : { opacity: 0, y: 84 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, delay: 0.12, ease: EASE }}
+          animate={
+            reduceMotion ? undefined : { opacity: [0, 0, 1], y: [84, 84, 0] }
+          }
+          transition={{
+            opacity: {
+              duration: FIGMA_TIMELINE * 0.0447,
+              times: [0, 0.005 / 0.0447, 1],
+              ease: ["linear", EASE],
+            },
+            y: {
+              duration: FIGMA_TIMELINE * 0.0447,
+              times: [0, 0.005 / 0.0447, 1],
+              ease: ["linear", EASE],
+            },
+          }}
         >
           Precision
         </motion.span>
         <DeliveryWord />
       </h1>
 
-      <p className="eyebrow since">// Since 2020</p>
+      <motion.p
+        className="eyebrow since"
+        data-node-id="1:676"
+        initial={reduceMotion ? false : { opacity: 0, y: 54 }}
+        animate={
+          reduceMotion ? undefined : { opacity: [0, 0, 1], y: [54, 54, 0] }
+        }
+        transition={{
+          opacity: {
+            duration: FIGMA_TIMELINE * 0.0397,
+            times: [0, 0.0247 / 0.0397, 1],
+            ease: ["linear", SOFT_EASE],
+          },
+          y: {
+            duration: FIGMA_TIMELINE * 0.0397,
+            times: [0, 0.0247 / 0.0397, 1],
+            ease: ["linear", SOFT_EASE],
+          },
+        }}
+      >
+        // Since 2020
+      </motion.p>
 
       <motion.div
         className="cargo-visual"
-        initial={reduceMotion ? false : { opacity: 0, y: -80, scale: 0.84 }}
-        animate={{ opacity: 1, y: 0, scale: 1 }}
-        transition={{ duration: 1.15, delay: 0.22, ease: EASE }}
+        data-node-id="1:653"
+        initial={reduceMotion ? false : { scaleX: 0.8, scaleY: 0.8, y: -1677 }}
+        animate={
+          reduceMotion
+            ? undefined
+            : {
+                scaleX: [0.8, 0.8, 1],
+                scaleY: [0.8, 0.8, 1],
+                y: [-1677, -1677, 0],
+              }
+        }
+        transition={{
+          scaleX: {
+            duration: FIGMA_TIMELINE * 0.0495,
+            times: [0, 0.005 / 0.0495, 1],
+            ease: ["linear", EASE],
+          },
+          scaleY: {
+            duration: FIGMA_TIMELINE * 0.0495,
+            times: [0, 0.005 / 0.0495, 1],
+            ease: ["linear", EASE],
+          },
+          y: {
+            duration: FIGMA_TIMELINE * 0.0495,
+            times: [0, 0.005 / 0.0495, 1],
+            ease: ["linear", EASE],
+          },
+        }}
       >
         <img className="cargo-shadow" src="/assets/cargo-shadow.svg" alt="" />
         <img
@@ -216,30 +437,94 @@ function Hero() {
           src="/assets/cargo-primary.png"
           alt="A Setby freight container suspended from a crane"
         />
-        <img
+        <motion.img
           className="cargo-image cargo-secondary"
+          data-node-id="1:656"
           src="/assets/cargo-secondary.png"
           alt=""
+          initial={reduceMotion ? false : { opacity: 0 }}
+          animate={reduceMotion ? undefined : { opacity: [0, 0, 1] }}
+          transition={{
+            opacity: {
+              duration: FIGMA_TIMELINE * 0.1486,
+              times: [0, 0.1194 / 0.1486, 1],
+              ease: ["linear", EASE],
+            },
+          }}
         />
-        <span className="cargo-hint">Hover to recolour</span>
       </motion.div>
 
       <div className="hero-actions">
-        <a className="button button-orange" href="#contact">
-          Let&apos;s move your cargo <Arrow />
-        </a>
-        <button
-          className="round-action"
-          type="button"
-          aria-expanded={detailsOpen}
-          aria-controls="cargo-details"
-          onClick={() => setDetailsOpen((current) => !current)}
+        <motion.div
+          data-node-id="1:671"
+          initial={reduceMotion ? false : { scaleX: 0, scaleY: 0, y: 162.5 }}
+          animate={
+            reduceMotion
+              ? undefined
+              : {
+                  scaleX: [0, 0, 1],
+                  scaleY: [0, 0, 1],
+                  y: [162.5, 162.5, 0],
+                }
+          }
+          transition={{
+            scaleX: {
+              duration: FIGMA_TIMELINE * 0.0397,
+              times: [0, 0.0149 / 0.0397, 1],
+              ease: ["linear", EASE],
+            },
+            scaleY: {
+              duration: FIGMA_TIMELINE * 0.0397,
+              times: [0, 0.0149 / 0.0397, 1],
+              ease: ["linear", EASE],
+            },
+            y: {
+              duration: FIGMA_TIMELINE * 0.0397,
+              times: [0, 0.0149 / 0.0397, 1],
+              ease: ["linear", EASE],
+            },
+          }}
         >
-          <img src="/assets/play-icon.svg" alt="" />
-          <span className="sr-only">
-            {detailsOpen ? "Hide" : "Show"} cargo details
-          </span>
-        </button>
+          <a className="button button-orange" href="#contact">
+            Let&apos;s move your cargo <Arrow />
+          </a>
+        </motion.div>
+        <motion.div
+          data-node-id="1:696"
+          initial={
+            reduceMotion
+              ? false
+              : { rotate: -90, scaleX: 0.3, scaleY: 0.3, x: -361 }
+          }
+          animate={
+            reduceMotion
+              ? undefined
+              : {
+                  rotate: [-90, -90, 0],
+                  scaleX: [0.3, 0.3, 1],
+                  scaleY: [0.3, 0.3, 1],
+                  x: [-361, -361, 0],
+                }
+          }
+          transition={{
+            duration: FIGMA_TIMELINE * 0.0397,
+            times: [0, 0.0099 / 0.0397, 1],
+            ease: ["linear", EASE],
+          }}
+        >
+          <button
+            className="round-action"
+            type="button"
+            aria-expanded={detailsOpen}
+            aria-controls="cargo-details"
+            onClick={() => setDetailsOpen((current) => !current)}
+          >
+            <img src="/assets/play-icon.svg" alt="" />
+            <span className="sr-only">
+              {detailsOpen ? "Hide" : "Show"} cargo details
+            </span>
+          </button>
+        </motion.div>
       </div>
 
       <AnimatePresence>
@@ -262,30 +547,54 @@ function Hero() {
         )}
       </AnimatePresence>
 
-      <div className="stats" aria-label="Company statistics">
-        {stats.map(([number, label], index) => (
-          <motion.div
-            className="stat"
-            key={number}
-            initial={reduceMotion ? false : { opacity: 0, x: 80, rowGap: 30 }}
-            animate={{ opacity: 1, x: 0, rowGap: 4 }}
-            transition={{
-              duration: 0.75,
-              delay: 0.32 + index * 0.1,
-              ease: EASE,
-            }}
-          >
+      <motion.div
+        className="stats"
+        data-node-id="1:677"
+        aria-label="Company statistics"
+        initial={reduceMotion ? false : { opacity: 0, rowGap: "142px", x: 365 }}
+        animate={
+          reduceMotion
+            ? undefined
+            : {
+                opacity: [0, 0, 1],
+                rowGap: ["142px", "142px", "45px"],
+                x: [365, 365, 0],
+              }
+        }
+        transition={{
+          duration: FIGMA_TIMELINE * 0.0397,
+          times: [0, 0.0099 / 0.0397, 1],
+          ease: ["linear", EASE],
+        }}
+      >
+        {stats.map(([number, label]) => (
+          <div className="stat" key={number}>
             <strong>{number}</strong>
             <span>{label}</span>
-          </motion.div>
+          </div>
         ))}
-      </div>
+      </motion.div>
 
       <motion.article
         className="proof-card"
-        initial={reduceMotion ? false : { opacity: 0, x: 120, scale: 0.72 }}
-        animate={{ opacity: 1, x: 0, scale: 1 }}
-        transition={{ duration: 0.8, delay: 0.45, ease: EASE }}
+        data-node-id="1:687"
+        initial={
+          reduceMotion ? false : { scaleX: 0.58, scaleY: 0.58, x: 410.32 }
+        }
+        animate={
+          reduceMotion
+            ? undefined
+            : {
+                scaleX: [0.58, 0.58, 1],
+                scaleY: [0.58, 0.58, 1],
+                x: [410.32, 410.32, 0],
+              }
+        }
+        transition={{
+          duration: FIGMA_TIMELINE * 0.0348,
+          times: [0, 0.0099 / 0.0348, 1],
+          ease: ["linear", EASE],
+        }}
       >
         <img
           src="/assets/logistics-card.jpg"
@@ -302,6 +611,8 @@ function Hero() {
 }
 
 function About() {
+  const reduceMotion = useReducedMotion();
+
   return (
     <section
       className="about section-orange"
@@ -312,17 +623,45 @@ function About() {
         <Reveal className="section-label section-label-light">
           <span className="label-slash" /> About Setby
         </Reveal>
-        <Reveal delay={0.08} amount={0.25}>
+        <motion.div
+          data-node-id="1:705"
+          initial={
+            reduceMotion ? false : { opacity: 0, filter: "blur(10.5px)" }
+          }
+          whileInView={
+            reduceMotion ? undefined : { opacity: 1, filter: "blur(0px)" }
+          }
+          viewport={{ once: true, amount: 0.25 }}
+          transition={{
+            opacity: {
+              duration: FIGMA_TIMELINE * (0.1487 - 0.1078),
+              ease: EASE,
+            },
+            filter: {
+              duration: FIGMA_TIMELINE * (0.1487 - 0.1078),
+              ease: "linear",
+            },
+          }}
+        >
           <h2 id="about-title">
             We bring logistics to life through craft and innovation. Trusted by
             teams who demand precision, speed, and care.
           </h2>
-        </Reveal>
-        <Reveal delay={0.16}>
+        </motion.div>
+        <motion.div
+          data-node-id="1:706"
+          initial={reduceMotion ? false : { scaleX: 0, scaleY: 0 }}
+          whileInView={reduceMotion ? undefined : { scaleX: 1, scaleY: 1 }}
+          viewport={{ once: true, amount: 0.5 }}
+          transition={{
+            duration: FIGMA_TIMELINE * (0.1487 - 0.1177),
+            ease: EASE,
+          }}
+        >
           <a className="button button-dark" href="#mission">
             Who we are <Arrow />
           </a>
-        </Reveal>
+        </motion.div>
       </div>
     </section>
   );
@@ -369,15 +708,22 @@ function Mission() {
             transition={{ duration: 0.9, ease: EASE }}
           />
           {features.map(([label, route, className], index) => (
-            <Reveal
+            <motion.div
               className={className}
-              delay={0.08 * index}
               key={label}
-              amount={0.4}
+              data-node-id={["1:719", "1:720", "1:721", "1:722"][index]}
+              initial={reduceMotion ? false : { opacity: 0, x: 135 }}
+              whileInView={reduceMotion ? undefined : { opacity: 1, x: 0 }}
+              viewport={{ once: true, amount: 0.4 }}
+              transition={{
+                duration: FIGMA_TIMELINE * (0.2977 - 0.258),
+                delay: index * 0.04,
+                ease: EASE,
+              }}
             >
               <img src={route} alt="" />
               <span>{label}</span>
-            </Reveal>
+            </motion.div>
           ))}
         </div>
       </div>
@@ -386,6 +732,8 @@ function Mission() {
 }
 
 function Projects() {
+  const reduceMotion = useReducedMotion();
+
   return (
     <section
       className="projects"
@@ -410,7 +758,19 @@ function Projects() {
         </div>
 
         <div className="project-grid">
-          <Reveal className="project-card project-card-tall" amount={0.25}>
+          <motion.div
+            className="project-card project-card-tall"
+            data-node-id="1:784"
+            initial={
+              reduceMotion ? false : { scaleX: 1 / 70.75, scaleY: 1 / 70.75 }
+            }
+            whileInView={reduceMotion ? undefined : { scaleX: 1, scaleY: 1 }}
+            viewport={{ once: true, amount: 0.25 }}
+            transition={{
+              duration: FIGMA_TIMELINE * (0.4858 - 0.4464),
+              ease: EASE,
+            }}
+          >
             <a href="#services" aria-label="View global freight project">
               <div className="project-image-wrap">
                 <img
@@ -424,11 +784,19 @@ function Projects() {
                 <span>Global freight · 2025</span>
               </div>
             </a>
-          </Reveal>
-          <Reveal
+          </motion.div>
+          <motion.div
             className="project-card project-card-wide"
-            delay={0.1}
-            amount={0.25}
+            data-node-id="1:785"
+            initial={
+              reduceMotion ? false : { scaleX: 1 / 64.1, scaleY: 1 / 64.1 }
+            }
+            whileInView={reduceMotion ? undefined : { scaleX: 1, scaleY: 1 }}
+            viewport={{ once: true, amount: 0.25 }}
+            transition={{
+              duration: FIGMA_TIMELINE * (0.5359 - 0.496),
+              ease: EASE,
+            }}
           >
             <a href="#services" aria-label="View connected cargo project">
               <div className="project-image-wrap">
@@ -443,7 +811,7 @@ function Projects() {
                 <span>Express delivery · 2026</span>
               </div>
             </a>
-          </Reveal>
+          </motion.div>
         </div>
       </div>
     </section>
@@ -476,10 +844,17 @@ function Services() {
               <motion.article
                 className={`service-row ${active ? "active" : ""}`}
                 key={service.title}
-                initial={reduceMotion ? false : { opacity: 0, y: 38 }}
-                whileInView={reduceMotion ? undefined : { opacity: 1, y: 0 }}
+                data-node-id={["1:737", "1:749", "1:761", "1:773"][index]}
+                initial={
+                  reduceMotion ? false : { opacity: index === 0 ? 1 : 0.4 }
+                }
+                whileInView={reduceMotion ? undefined : { opacity: 1 }}
                 viewport={{ once: true, amount: 0.45 }}
-                transition={{ duration: 0.68, delay: index * 0.05, ease: EASE }}
+                transition={{
+                  duration: FIGMA_TIMELINE * (0.5358 - 0.4959),
+                  delay: index * 0.06,
+                  ease: EASE,
+                }}
               >
                 <button
                   type="button"
@@ -532,17 +907,33 @@ function Contact() {
         src="/assets/closing-background.webp"
         alt="Sunset above the sea"
       />
-      <Reveal className="contact-word" amount={0.3}>
+      <motion.div
+        className="contact-word"
+        data-node-id="1:789"
+        initial={
+          reduceMotion ? false : { scaleX: 0.3, scaleY: 0.3, y: 298.238 }
+        }
+        whileInView={reduceMotion ? undefined : { scaleX: 1, scaleY: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.3 }}
+        transition={{
+          duration: FIGMA_TIMELINE * (0.6349 - 0.5854),
+          ease: EASE,
+        }}
+      >
         Setby.
-      </Reveal>
+      </motion.div>
       <motion.img
         className="contact-containers"
+        data-node-id="1:790"
         src="/assets/closing-foreground.webp"
         alt="Orange Setby shipping containers"
-        initial={reduceMotion ? false : { opacity: 0, y: 120 }}
-        whileInView={reduceMotion ? undefined : { opacity: 1, y: 0 }}
+        initial={reduceMotion ? false : { y: 313.675 }}
+        whileInView={reduceMotion ? undefined : { y: 0 }}
         viewport={{ once: true, amount: 0.18 }}
-        transition={{ duration: 1.05, ease: EASE }}
+        transition={{
+          duration: FIGMA_TIMELINE * (0.6349 - 0.5855),
+          ease: EASE,
+        }}
       />
       <Reveal className="contact-cta" delay={0.18} amount={0.4}>
         <p className="eyebrow">Ready when you are</p>
@@ -565,6 +956,7 @@ function Contact() {
 export default function Home() {
   return (
     <main>
+      <OpeningIntro />
       <Hero />
       <About />
       <Mission />

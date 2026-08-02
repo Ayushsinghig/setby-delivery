@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Manrope:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Chivo+Mono:wght@300;400;500&family=Manrope:wght@400;500;600;700&display=swap");
 
 :root {
   --orange: #ff5c32;
@@ -78,7 +78,7 @@ img {
 .eyebrow,
 .section-label,
 .mission-kicker {
-  font-family: "DM Mono", monospace;
+  font-family: "Chivo Mono", monospace;
   text-transform: uppercase;
   letter-spacing: 0.04em;
 }
@@ -100,6 +100,119 @@ img {
   height: 26px;
   background: currentColor;
   transform: skewY(-38deg);
+}
+
+.opening-intro {
+  position: fixed;
+  z-index: 1000;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.intro-panel,
+.intro-cap {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  background: var(--orange);
+  border: 0;
+  box-shadow: 0 0 0 1px var(--orange);
+  will-change: transform;
+}
+
+.intro-cap-left {
+  left: 0;
+  width: 2.08%;
+}
+.intro-panel-one {
+  left: 2.06%;
+  width: 23.95%;
+}
+.intro-panel-two {
+  left: 25.98%;
+  width: 23.95%;
+}
+.intro-panel-three {
+  left: 49.92%;
+  width: 23.95%;
+}
+.intro-panel-four {
+  left: 73.87%;
+  width: 23.95%;
+}
+.intro-cap-right {
+  right: 0;
+  width: 2.18%;
+}
+
+.intro-content-position {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  display: grid;
+  place-items: center;
+}
+
+.intro-content {
+  width: clamp(180px, 15.45vw, 396px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  will-change: transform;
+}
+
+.intro-lockup {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 396 / 162;
+}
+
+.intro-lockup > img,
+.intro-type {
+  position: absolute;
+  top: 0;
+  height: 100%;
+}
+
+.intro-lockup > img:first-child {
+  left: 0;
+  width: 27.08%;
+}
+.intro-lockup > img:nth-child(2) {
+  left: 25.63%;
+  width: 27.08%;
+}
+
+.intro-type {
+  left: 51.27%;
+  width: 48.73%;
+}
+
+.intro-type img {
+  width: 100%;
+  height: 100%;
+}
+
+.intro-type strong {
+  position: absolute;
+  left: 14.85%;
+  top: 49.95%;
+  color: var(--orange);
+  font-size: clamp(1.62rem, 2.32vw, 3.72rem);
+  line-height: 1;
+  letter-spacing: -0.06em;
+  white-space: nowrap;
+}
+
+.intro-content > p {
+  margin: clamp(12px, 1.1vw, 28px) 0 0;
+  color: white;
+  font-family: "Chivo Mono", monospace;
+  font-size: clamp(0.66rem, 1.17vw, 1.88rem);
+  line-height: 1;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
 }
 
 .button {
@@ -359,13 +472,42 @@ img {
 }
 
 .delivery-word {
+  position: relative;
   align-self: flex-end;
-  display: flex;
+  width: 49.34vw;
+  height: 1em;
   padding-right: 0.07em;
 }
 
 .delivery-word > span {
   display: block;
+  position: absolute;
+  top: 0;
+}
+
+.delivery-word > span:nth-child(1) {
+  left: 0;
+}
+.delivery-word > span:nth-child(2) {
+  left: 21.82%;
+}
+.delivery-word > span:nth-child(3) {
+  left: 38.89%;
+}
+.delivery-word > span:nth-child(4) {
+  left: 45.53%;
+}
+.delivery-word > span:nth-child(5) {
+  left: 52.49%;
+}
+.delivery-word > span:nth-child(6) {
+  left: 67.67%;
+}
+.delivery-word > span:nth-child(7) {
+  left: 84.74%;
+}
+.delivery-word > span:nth-child(8) {
+  left: 95.97%;
 }
 
 .since {
@@ -408,43 +550,10 @@ img {
   opacity: 0;
 }
 
-.cargo-visual:hover .cargo-primary,
-.cargo-visual:focus-within .cargo-primary {
-  opacity: 0;
-  transform: scale(0.985);
-}
-
-.cargo-visual:hover .cargo-secondary,
-.cargo-visual:focus-within .cargo-secondary {
-  opacity: 1;
-  transform: scale(1.015);
-}
-
 .cargo-shadow {
   z-index: -1;
   opacity: 0.35;
   transform: translateY(18%);
-}
-
-.cargo-hint {
-  position: absolute;
-  left: 59%;
-  top: 39%;
-  padding: 6px 9px;
-  background: rgba(255, 255, 255, 0.84);
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  border-radius: 999px;
-  font-family: "DM Mono", monospace;
-  font-size: 0.62rem;
-  text-transform: uppercase;
-  opacity: 0;
-  transform: translateY(8px);
-  transition: 320ms var(--ease);
-}
-
-.cargo-visual:hover .cargo-hint {
-  opacity: 1;
-  transform: translateY(0);
 }
 
 .hero-actions {
@@ -859,7 +968,7 @@ img {
   display: grid;
   place-items: center;
   background: rgba(255, 255, 255, 0.9);
-  font-family: "DM Mono", monospace;
+  font-family: "Chivo Mono", monospace;
   font-size: 0.72rem;
   transition:
     color 300ms var(--ease),
@@ -888,7 +997,7 @@ img {
 
 .project-meta span {
   color: rgba(0, 0, 0, 0.52);
-  font-family: "DM Mono", monospace;
+  font-family: "Chivo Mono", monospace;
   font-size: 0.7rem;
   text-transform: uppercase;
 }
@@ -972,7 +1081,7 @@ img {
   padding: 10px 14px;
   border: 1px solid currentColor;
   border-radius: 999px;
-  font-family: "DM Mono", monospace;
+  font-family: "Chivo Mono", monospace;
   font-size: 0.67rem;
   line-height: 1;
   text-transform: uppercase;
@@ -1079,7 +1188,7 @@ img {
 
 .site-footer p {
   margin: 0;
-  font-family: "DM Mono", monospace;
+  font-family: "Chivo Mono", monospace;
   text-transform: uppercase;
 }
 
@@ -1205,7 +1314,30 @@ img {
 
   .delivery-word {
     align-self: flex-start;
-    padding: 0 0 108px;
+    width: 100%;
+    padding: 0 0 170px;
+  }
+
+  .delivery-word > span:nth-child(2) {
+    left: 21.1%;
+  }
+  .delivery-word > span:nth-child(3) {
+    left: 37.67%;
+  }
+  .delivery-word > span:nth-child(4) {
+    left: 43.68%;
+  }
+  .delivery-word > span:nth-child(5) {
+    left: 50.27%;
+  }
+  .delivery-word > span:nth-child(6) {
+    left: 64.59%;
+  }
+  .delivery-word > span:nth-child(7) {
+    left: 81.08%;
+  }
+  .delivery-word > span:nth-child(8) {
+    left: 92.42%;
   }
 
   .cargo-visual {
@@ -1215,7 +1347,6 @@ img {
     height: 650px;
   }
 
-  .cargo-hint,
   .proof-card,
   .since {
     display: none;
@@ -1425,6 +1556,10 @@ img {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .opening-intro {
+    display: none;
+  }
+
   html {
     scroll-behavior: auto;
   }
