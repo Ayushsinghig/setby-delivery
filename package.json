@@ -1,0 +1,28 @@
+{
+  "name": "setby-cargo",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "format:check": "bunx prettier . --check",
+    "format": "bunx prettier . --write"
+  },
+  "dependencies": {
+    "motion": "^12.43.0",
+    "next": "^16.2.12",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8"
+  },
+  "devDependencies": {
+    "@types/node": "^26.1.2",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.4",
+    "prettier": "^3.9.6",
+    "prettier-plugin-tailwindcss": "^0.8.1",
+    "prettier-plugin-tailwindcss-canonical-classes": "^0.1.5",
+    "typescript": "^7.0.2"
+  }
+}

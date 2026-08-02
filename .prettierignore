@@ -1,0 +1,85 @@
+# Dependencies & Build
+node_modules/
+.next/
+out/
+dist/
+build/
+.vercel/
+.netlify/
+.cache/
+
+# Environment & Config
+.env
+.env.*
+*.log
+*.pid
+*.seed
+*.pid.lock
+
+# IDE & Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+*.iml
+
+# Coverage & Testing
+coverage/
+.nyc_output/
+*.lcov
+
+# Documentation (exclude all markdown)
+*.md
+*.mdx
+*.txt
+*.rst
+docs/
+**/docs/
+
+# Package Managers
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+bun.lockb
+bun.lock
+
+# Next.js specific
+.next/
+.vercel/
+out/
+**/pages/_app.tsx
+**/pages/_document.tsx
+
+# Temporary files
+*.tmp
+*.temp
+*.cache
+.eslintcache
+*.tsbuildinfo
+
+# OS files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Markdown files everywhere
+**/*.md
+**/*.mdx
+**/*.txt
+**/*.rst
+
+# Other generated files
+*.min.js
+*.min.css
+*.bundle.js
+*.bundle.css
+*.map
+*.d.ts
+!*.d.ts
