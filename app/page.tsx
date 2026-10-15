@@ -1210,7 +1210,7 @@ function Contact() {
         Setby.
       </motion.div>
       <motion.img
-        className="absolute inset-x-0 bottom-0 z-3 h-full w-full object-[center_bottom] min-[1200px]:h-full max-[760px]:h-full max-[760px]:object-[60%_bottom] lg:top-17"
+        className="absolute inset-x-0 bottom-0 z-3 h-full w-full object-[center_bottom] max-[760px]:h-full max-[760px]:object-[60%_bottom] min-[1200px]:h-full lg:top-17"
         data-node-id="1:790"
         src="/assets/closing-foreground.webp"
         alt="Orange Setby shipping containers"
